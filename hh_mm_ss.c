@@ -1,6 +1,6 @@
-Define a structure called Time containing 3 members: integer hour, integer minute, and integer second. Write a C program to read the current time in terms of hours, minutes, and seconds (which are the structure members) and print the updated time which is incremented by 1 second in the following format hh : mm : ss by calling the function update() that would accept struct Time and return the new time.
+//Define a structure called Time containing 3 members: integer hour, integer minute, and integer second. Write a C program to read the current time in terms of hours, minutes, and seconds (which are the structure members) and print the updated time which is incremented by 1 second in the following format hh : mm : ss by calling the function update() that would accept struct Time and return the new time.
 
-Hint: If the increment results in 60 seconds, then second member is set to zero and minute member is incremented by one. Then if the result is 60 minutes, the minute member is set to zero and the hour member is incremented by one. Finally, when the hour becomes 24 and incremented by 1, then it is set to 0.
+//Hint: If the increment results in 60 seconds, then second member is set to zero and minute member is incremented by one. Then if the result is 60 minutes, the minute member is set to zero and the hour member is incremented by one. Finally, when the hour becomes 24 and incremented by 1, then it is set to 0.
 #include <stdio.h>
 
 // Define the structure
