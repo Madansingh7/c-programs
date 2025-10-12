@@ -3,51 +3,50 @@
 #include<stdlib.h>
 #define SIZE 5
 
-int s[SIZE], top;
-void push(int item)
+typedef struct {
+    int stk[SIZE];
+    int top;
+}stack;
+void push(stack *s, int item)
 {
-    if(top == SIZE - 1)
+    if(s->top == SIZE - 1)
     {
         printf("Stack Overflow\n");
         return;
     }
-    top++;
-    s[top] = item;
+    s->stk[++(s->top)] = item;
 }
 
-int pop()
+int pop(stack *s)
 {
-    int item_delete;
-    if(top == -1)
+    if(s->top == -1)
     {
         return 0;
     }
-    else
-    {
-        item_delete = s[top--];
-    }
-    return item_delete;
+
+return s->stk[(s->top)--];
 }
 
-void display()
+void display(stack *s)
 {
     int i;
-    if(top == -1)
+    if(s->top == -1)
     {
         printf("Stack Underflow or Stack Empty\n");
         return;
     }
     printf("Contents of stack are: \n");
-    for(int i = 0; i <= top; i++)
+    for(int i = 0; i <= s->top; i++)
     {
-        printf("%d\n", s[i]);
+        printf("%d\n", s->stk[i]);
     }
 }
 
-main()
+void main()
 {
+    stack s1;
+    s1.top=-1;
     int item, choice, popItem;
-    top = -1;
     for(;;)
     {
         printf("\n1:Push\t2:Pop\t3:display\t4:exit\n");
@@ -58,10 +57,10 @@ main()
             case 1:
                 printf("Enter element to be inserted: ");
                 scanf("%d", &item);
-                push(item);
+                push(&s1,item);
                 break;
             case 2:
-                popItem = pop();
+                popItem = pop(&s1);
                 if(popItem == 0)
                 {
                     printf("Stack empty\n");
@@ -72,7 +71,7 @@ main()
                 }
                 break;
             case 3:
-                display();
+                display(&s1);
                 break;
             default:
                 exit(0);
