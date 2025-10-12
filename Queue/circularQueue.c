@@ -25,7 +25,6 @@ int deque(Que *q, int *c)
     int ele;
     if((*c)==0)
     {
-        printf("Queue empty\n");
         return -1;
     }
     ele=q->que[(q->f)];
@@ -71,7 +70,12 @@ void main()
 
         case 2 :
             ele=deque(&q1,&c);
+            if(ele==-1){
+            printf("Queue empty\n");
+            }
+            else{
             printf("%d deleted from Queue\n",ele);
+            }
             break;
 
         case 3:
