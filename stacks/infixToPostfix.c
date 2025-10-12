@@ -15,7 +15,7 @@ void push(S *s, int ele){
     s->stk[++(s->top)]=ele;
 }
 
-int pop(S *s){
+char pop(S *s){
      if(s->top == -1){
         printf("Underflow\n");
         return -1;
