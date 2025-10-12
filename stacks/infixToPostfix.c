@@ -1,26 +1,31 @@
 //Write a C program to covert infix to postix using stack as the data structure
-#include<stdio.h>
+#include <stdio.h>
 #include<ctype.h>
-#define SIZE 20
-
-struct stack{
-    char stk[SIZE];
+#define N 20
+typedef struct {
+    int stk[N];
     int top;
-};
+}S;
 
-void push(struct stack *s, char ele)
-{
-    s -> stk[++(s -> top)] = ele;
+void push(S *s, int ele){
+    if(s->top == N-1){
+        printf("Overflow\n");
+        return;
+    }
+    s->stk[++(s->top)]=ele;
 }
 
-int pop(struct stack *s)
-{
-    return (s -> stk[(s -> top)--]);
+int pop(S *s){
+     if(s->top == -1){
+        printf("Underflow\n");
+        return -1;
+        }
+    return s->stk[(s->top)--];
 }
 
-int precedence(char operator)
+int precedence(char op)
 {
-    switch(operator)
+    switch(op)
     {
         case '(': return 1;
         case '+':
@@ -28,48 +33,44 @@ int precedence(char operator)
         case '*':
         case '/': 
         case '%': return 3;
+        case '^':
+        case '$': return 4;
     }
 }
 
-void main()
-{
-    struct stack s;
-    s.top = -1;
-    char infix[SIZE], postfix[SIZE], ch, c;
+int main() {
+    S s1;
+    s1.top=-1;
+    char infix[N], postfix[N], ch, c;
     int i = 0, j = 0;
     printf("Enter a valid infix expression: ");
     scanf("%s", infix);
-    while(infix[i] != '\0')
-    {
-        ch = infix[i++];
-        if(ch == '(')
-        {
-            push(&s, ch);
+    while(infix[i] != '\0'){
+        ch=infix[i++];
+        if(ch=='('){
+            push(&s1,ch);
         }
-        else if(isalpha(ch) || isdigit(ch))
-        {
-            postfix[j++] = ch;
+        else if(isalnum(ch)){
+            postfix[j++]=ch;
         }
-        else if(ch == ')')
-        {
-            while((c = pop(&s)) != '(')
-            {
-                postfix[j++] = c;
+        else if (ch==')'){
+            while((c=pop(&s1))!='('){
+                postfix[j++]=c;
             }
         }
-        else
-        {
-            while(precedence(ch) <= precedence(s.stk[s.top]) && s.top != -1)
-            {
-                postfix[j++] = pop(&s);
+        else{
+            while(precedence(ch)<=precedence(s1.stk[s1.top]) && s1.top != -1){
+                postfix[j++]=pop(&s1);
             }
-            push(&s, ch);
+            push(&s1,ch);
         }
     }
-    while(s.top != -1)
+    while(s1.top != -1)
     {
-        postfix[j++] = pop(&s);
+        postfix[j++] = pop(&s1);
     }
     postfix[j] = '\0';
     printf("Postfix of infix expression is %s = %s\n", infix, postfix);
+
+    return 0;
 }
