@@ -59,7 +59,9 @@ int main() {
             }
         }
         else{
-            while(precedence(ch)<=precedence(s1.stk[s1.top]) && s1.top != -1){
+        while(s1.top != -1 && 
+     ((precedence(ch) < precedence(s1.stk[s1.top])) ||
+     (precedence(ch) == precedence(s1.stk[s1.top]) && ch != '^' && ch != '$'))){
                 postfix[j++]=pop(&s1);
             }
             push(&s1,ch);
