@@ -8,23 +8,25 @@ void enque(int *q, int *r, int ele,int *c, int N)
         printf("Over flow\n");
         return;
     }
+    *r = (*r + 1) % N;
+    q[*r]=ele;
     (*c)++;
-    q[++(*r)]=ele;
 }
 
-int deque(int *q, int *f, int *c)
+int deque(int *q, int *f, int *c, int N)
 {
     int ele;
     if((*c)==0)
     {
         return -1;
     }
-    ele=q[(*f)++];
+    ele=q[*f];
+    *f = (*f + 1) % N;
     (*c)--;
     return ele;
 }
 
-void display(int q[],int f, int r, int c)
+void display(int q[],int f, int r, int c,int N)
 {
     if(c==0)
     {
@@ -33,7 +35,7 @@ void display(int q[],int f, int r, int c)
     }
     printf("Content of Queue is : ");
     for(int i= 0; i<c; i++){
-        printf("%3d",q[f++]);
+        printf("%3d",q[(f + i) % N]);
     }
 }
 
@@ -61,7 +63,7 @@ void main()
             break;
 
         case 2 :
-            ele=deque(q1,&f,&c);
+            ele=deque(q1,&f,&c,N);
             if(ele==-1){
             printf("Queue empty\n");
             }
@@ -71,7 +73,7 @@ void main()
             break;
 
         case 3:
-            display(q1,f,r,c);
+            display(q1,f,r,c,N);
             break;
 
         case 4:
