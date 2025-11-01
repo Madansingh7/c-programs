@@ -22,7 +22,7 @@ NODE insert(NODE first, int ele) {
     if(first==NULL || ele <=first->info){
         temp->next = first;
         first = temp;
-        printf("Inserted %d at front\n", ele);
+        printf("Inserted %d at List\n", ele);
         return first;
     }
    
@@ -34,7 +34,7 @@ NODE insert(NODE first, int ele) {
     }
     prev->next = temp;
     temp->next = curr;
-    printf("Inserted %d at front\n", ele);
+    printf("Inserted %d in List\n", ele);
     return first;
 }
 
@@ -86,4 +86,5 @@ int main() {
         }
     }
     return 0;
+
 }
