@@ -1,3 +1,12 @@
+//THIS PROGRAM IS ONLY FOR INSERT TYPES IN SINGLY LINKED LIST
+// 1 - insert @ front
+// 2 - insert @ rear
+// 3 - insert @ a position
+// 4 - insert before a element
+// 5 - insert after a element
+// 6 - display
+// 7 - exit
+
 #include <stdio.h>
 #include <stdlib.h>
 
