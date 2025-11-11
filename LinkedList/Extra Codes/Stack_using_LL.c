@@ -14,7 +14,7 @@ NODE push(NODE top, int ele)
     if(newnode == NULL)
     {
         printf("Stack empty | Memory not allocated\n");
-        return NULL;
+        return top;
     }
     newnode->info = ele;
     newnode->next = top;
@@ -32,7 +32,7 @@ NODE pop(NODE top)
     }
     NODE curr=top;
     top=top->next;
-    printf("%d poped from stack",curr->info);
+    printf("%d poped from stack\n",curr->info);
     free(curr);
     return top;
 }
