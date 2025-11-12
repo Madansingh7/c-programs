@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int info;
+    struct node *next;
+};
+typedef struct node* NODE;
+
+// Function to create a node
+NODE create_node(int ele) {
+    NODE temp = (NODE)malloc(sizeof(*temp));
+    temp->info = ele;
+    temp->next = NULL;
+    return temp;
+}
+
+// Function to insert an element based on priority (ascending order)
+NODE enque(NODE first, int ele) {
+    NODE temp = create_node(ele);
+
+    if (first == NULL || ele <= first->info) {
+        // Insert at beginning if list empty or smaller than first element
+        temp->next = first;
+        first = temp;
+    } else {
+        NODE prev = NULL, curr = first;
+        // Find proper position based on ascending order
+        while (curr != NULL && curr->info < ele) {
+            prev = curr;
+            curr = curr->next;
+        }
+        prev->next = temp;
+        temp->next = curr;
+    }
+    printf("%d inserted into Priority Queue\n", ele);
+    return first;
+}
+
+// Function to delete the highest priority element (smallest value)
+NODE deque(NODE first) {
+    if (first == NULL) {
+        printf("Underflow! Queue is empty\n");
+        return NULL;
+    }
+    NODE temp = first;
+    printf("%d deleted from Queue\n", temp->info);
+    first = first->next;
+    free(temp);
+    return first;
+}
+
+// Function to display the queue
+void display(NODE first) {
+    if (first == NULL) {
+        printf("Queue is Empty\n");
+        return;
+    }
+    NODE cur = first;
+    printf("Priority Queue: ");
+    while (cur != NULL) {
+        printf("%5d", cur->info);
+        cur = cur->next;
+    }
+    printf("\n");
+}
+
+// Main function
+int main() {
+    NODE first = NULL;
+    int ch, ele;
+
+    while (1) {
+        printf("\n1. Insert\n2. Delete\n3. Display\n4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 1:
+                printf("Enter element: ");
+                scanf("%d", &ele);
+                first = enque(first, ele);
+                break;
+
+            case 2:
+                first = deque(first);
+                break;
+
+            case 3:
+                display(first);
+                break;
+
+            case 4:
+                while (first != NULL) {  // clear memory before exit
+                    NODE t = first;
+                    first = first->next;
+                    free(t);
+                }
+                printf("Exiting... Queue cleared successfully.\n");
+                return 0;
+
+            default:
+                printf("Invalid choice\n");
+                break;
+        }
+    }
+}
