@@ -23,6 +23,7 @@ void enque(Que *q, int ele)
     }
     q->r++;
     q->que[++(j)]=ele;
+    printf("%d is inserted\n",ele);
 }
 
 int deque(Que *q)
@@ -55,6 +56,7 @@ void main()
     while(1)
     {
         printf("\n");
+        printf("PRIORITY QUEUE\n");
         printf("1 for Insert\n2 for deletion\n3 for display\n4 for exit\n");
         printf("Enter your choice: ");
         scanf("%d",&ch);
