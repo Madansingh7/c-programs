@@ -9,7 +9,7 @@ struct bst {
 typedef struct bst* BST;
 
 BST create_node(int ele) {
-    BST temp = (BST)malloc(sizeof (*temp));
+    BST temp = malloc(sizeof (*temp));
     temp->info = ele;
     temp->left = temp->right = NULL;
     return temp;
@@ -31,7 +31,7 @@ BST insert_bst(BST root, int ele) {
 void display(BST root, int lvl) {
     if(root == NULL) return;
         
-    display(root->right,lvl+1);
+    display(root->right, lvl+1);
     for(int i=0; i<lvl; i++){
         printf("    ");
     }

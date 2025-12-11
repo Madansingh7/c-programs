@@ -9,7 +9,7 @@ struct bst {
 typedef struct bst* BST;
 
 BST create_node(int ele) {
-    BST temp = (BST)malloc(sizeof (*temp));
+    BST temp = malloc(sizeof (*temp));
     temp->info = ele;
     temp->left = temp->right = NULL;
     return temp;
@@ -28,21 +28,29 @@ BST insert_bst(BST root, int ele) {
     return root;
 }
 
-BST delete_bst(BST root, int ele){
-    BST curr = root, prev = NULL, inOs, q;
+void display(BST root, int lvl) {
+    if(root == NULL) return;
+        
+    display(root->right, lvl+1);
+    for(int i=0; i<lvl; i++){
+        printf("    ");
+    }
+    printf("%d\n",root->info);
+    display(root->left,lvl+1);
+}
 
+
+BST delete_bst(BST root, int ele){
     if(root == NULL){
         printf("Tree is Empty\n");
         return NULL;
     }
 
+    BST curr = root, prev = NULL, inOs, q;
+
     // Search with parent tracking
-    while(curr != NULL){
-        if(ele == curr->info)
-            break;
-
-        prev = curr;   // IMPORTANT FIX
-
+    while(curr != NULL && curr->info != ele){
+        prev = curr;
         if(ele < curr->info)
             curr = curr->left;
         else
@@ -54,19 +62,20 @@ BST delete_bst(BST root, int ele){
         return root;
     }
 
-    // Case 1: curr has NO right child
+    // Case 1: No right child
     if(curr->right == NULL){
         q = curr->left;
     }
-    // Case 2: curr has NO left child but right exists
+    // Case 2: No left child
     else if(curr->left == NULL){
         q = curr->right;
     }
     // Case 3: Two children → inorder successor
-    else {
+    else{
         inOs = curr->right;
         prev = curr;
 
+        // Find inorder successor
         while(inOs->left != NULL){
             prev = inOs;
             inOs = inOs->left;
@@ -75,7 +84,7 @@ BST delete_bst(BST root, int ele){
         // Copy inorder successor value
         curr->info = inOs->info;
 
-        // Remove successor node from its parent
+        // Fix tree structure for successor delete
         if(prev->left == inOs)
             prev->left = inOs->right;
         else
@@ -85,13 +94,14 @@ BST delete_bst(BST root, int ele){
         return root;
     }
 
-    // Reconnect q with parent prev
-    if(prev == NULL){      // deleting root
+    // Attach q back in correct place
+    if(prev == NULL){
+        // deleting the root
         free(curr);
         return q;
     }
 
-    if(curr == prev->left)
+    if(prev->left == curr)
         prev->left = q;
     else
         prev->right = q;
@@ -100,26 +110,12 @@ BST delete_bst(BST root, int ele){
     return root;
 }
 
-void display(BST root, int lvl) {
-    if(root == NULL) return;
-
-    display(root->right,lvl+1);
-
-    for(int i=0; i<lvl; i++){
-        printf("    ");
-    }
-
-    printf("%d\n",root->info);
-
-    display(root->left,lvl+1);
-}
-
 int main() {
     BST root = NULL;
     int ele, ch;
 
     for (;;) {
-        printf("1 for insert\n2 for delete\n3 for display\n4 for exit\n");
+        printf("1 for insert\n2 for display\n3 for delete\n4 for exit\n");
         printf("Enter your choice: ");
         scanf("%d", &ch);
 
@@ -127,22 +123,27 @@ int main() {
             case 1:
                 printf("Enter element: ");
                 scanf("%d", &ele);
-                root = insert_bst(root, ele);
+                root=insert_bst(root, ele);
                 break;
 
             case 2:
-                printf("Enter element to delete: ");
-                scanf("%d", &ele);
-                root = delete_bst(root, ele);
-                break;
-
-            case 3:
+                if(root==NULL){
+                    printf("Tree is Empty\n");
+                    return 0;
+                }
                 display(root,0);
+                break;
+                
+            case 3:
+                printf("Enter element: ");
+                scanf("%d",&ele);
+                root=delete_bst(root,ele);
                 break;
 
             case 4:
                 exit(0);
-
+                break;
+                
             default:
                 printf("Invalid choice\n");
                 break;
