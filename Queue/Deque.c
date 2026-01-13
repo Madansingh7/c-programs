@@ -4,104 +4,89 @@
 #define SIZE 5
 
 typedef struct {
-    int data[SIZE];
+    int que[SIZE];
     int front;   // always 0
     int rear;    // starts at -1
 } DEQUE;
 
-// Initialize deque
-void init(DEQUE *dq) {
-    dq->front = 0;
-    dq->rear = -1;
-}
-
-// Check empty
-int isEmpty(DEQUE *dq) {
-    return (dq->rear == -1);
-}
-
-// Check full
-int isFull(DEQUE *dq) {
-    return (dq->rear == SIZE - 1);
-}
 
 // Insert at rear
-void insertRear(DEQUE *dq, int ele) {
-    if (isFull(dq)) {
+void insertRear(DEQUE *q, int ele) {
+    if (q->rear == SIZE - 1) {
         printf("Deque Overflow! Cannot insert at rear.\n");
         return;
     }
 
-    dq->rear++;
-    dq->data[dq->rear] = ele;
+    q->que[++(q->rear)] = ele;
     printf("Inserted %d at rear.\n", ele);
 }
 
 // Insert at front (shift elements right)
-void insertFront(DEQUE *dq, int ele) {
-    if (isFull(dq)) {
+void insertFront(DEQUE *q, int ele) {
+    if (q->rear == SIZE - 1) {
         printf("Deque Overflow! Cannot insert at front.\n");
         return;
     }
 
     // Shift right
-    for (int i = dq->rear; i >= 0; i--) {
-        dq->data[i + 1] = dq->data[i];
+    for (int i = q->rear; i >= 0; i--) {
+        q->que[i + 1] = q->que[i];
     }
 
-    dq->data[0] = ele;
-    dq->rear++;
+    q->que[0] = ele;
+    q->rear++;
 
     printf("Inserted %d at front.\n", ele);
 }
 
 // Delete from front (shift left)
-int deleteFront(DEQUE *dq) {
-    if (isEmpty(dq)) {
+int deleteFront(DEQUE *q) {
+    if(q->rear == -1) {
         printf("Deque Underflow! Cannot delete from front.\n");
         return -1;
     }
 
-    int ele = dq->data[0];
+    int ele = q->que[0];
 
     // Shift left
-    for (int i = 0; i < dq->rear; i++) {
-        dq->data[i] = dq->data[i + 1];
+    for (int i = 0; i < q->rear; i++) {
+        q->que[i] = q->que[i + 1];
     }
 
-    dq->rear--;
+    q->rear--;
     return ele;
 }
 
 // Delete from rear
-int deleteRear(DEQUE *dq) {
-    if (isEmpty(dq)) {
+int deleteRear(DEQUE *q) {
+    if(q->rear == -1) {
         printf("Deque Underflow! Cannot delete from rear.\n");
         return -1;
     }
 
-    int ele = dq->data[dq->rear];
-    dq->rear--;
+    int ele = q->que[q->rear];
+    q->rear--;
     return ele;
 }
 
 // Display deque
-void display(DEQUE *dq) {
-    if (isEmpty(dq)) {
+void display(DEQUE q) {
+    if (q.rear == SIZE - 1) {
         printf("Deque is empty.\n");
         return;
     }
 
     printf("Deque contents: ");
-    for (int i = 0; i <= dq->rear; i++) {
-        printf("%d ", dq->data[i]);
+    for (int i = 0; i <= q.rear; i++) {
+        printf("%d ", q.que[i]);
     }
     printf("\n");
 }
 
 int main() {
-    DEQUE dq;
-    init(&dq);
+    DEQUE q;
+    q.front = 0;
+    q.rear = -1;
 
     int choice, ele;
 
@@ -120,29 +105,29 @@ int main() {
             case 1:
                 printf("Enter element to insert at front: ");
                 scanf("%d", &ele);
-                insertFront(&dq, ele);
+                insertFront(&q, ele);
                 break;
 
             case 2:
                 printf("Enter element to insert at rear: ");
                 scanf("%d", &ele);
-                insertRear(&dq, ele);
+                insertRear(&q, ele);
                 break;
 
             case 3:
-                ele = deleteFront(&dq);
+                ele = deleteFront(&q);
                 if (ele != -1)
                     printf("Deleted from front: %d\n", ele);
                 break;
 
             case 4:
-                ele = deleteRear(&dq);
+                ele = deleteRear(&q);
                 if (ele != -1)
                     printf("Deleted from rear: %d\n", ele);
                 break;
 
             case 5:
-                display(&dq);
+                display(q);
                 break;
 
             case 6:
